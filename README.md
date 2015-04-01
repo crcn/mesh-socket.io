@@ -1,7 +1,7 @@
 
 [![Build Status](https://travis-ci.org/mojo-js/crudlet-socket.io.svg)](https://travis-ci.org/mojo-js/crudlet-socket.io) [![Coverage Status](https://coveralls.io/repos/mojo-js/crudlet-socket.io/badge.svg?branch=master)](https://coveralls.io/r/mojo-js/crudlet-socket.io?branch=master) [![Dependency Status](https://david-dm.org/mojo-js/crudlet-socket.io.svg)](https://david-dm.org/mojo-js/crudlet-socket.io)
 
-Streams for [socket.io](http://socket.io/)
+Streams for [socket.io](http://socket.io/). Also works with [crudlet](https://github.com/mojo-js/crudlet.js).
 
 #### Basic example
 
