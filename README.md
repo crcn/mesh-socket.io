@@ -22,7 +22,7 @@ var db = crud.tailable(loki());
 iodb("tail").pipe(crud.open(loki));
 
 // tail in-memory operations & broadcast them to the world
-db("tail").pipe(iodb);
+db("tail").pipe(crudlet.open(iodb));
 
 // insert data into the DB. Should get broadcasted
 // to socket.io
