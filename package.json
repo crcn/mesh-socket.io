@@ -1,6 +1,6 @@
 {
   "name": "crudlet-socket.io",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "socket.io streams",
   "main": "./lib/index.js",
   "scripts": {
