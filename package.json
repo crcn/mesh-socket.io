@@ -1,6 +1,6 @@
 {
   "name": "crudlet-socket.io",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "socket.io streams",
   "main": "./lib/index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "browserify": "^9.0.3",
     "browserify-middleware": "^5.0.2",
     "caplet": "0.0.38",
+    "crudlet": "^1.0.0",
     "crudlet-http": "0.0.x",
     "crudlet-local-storage": "0.0.x",
     "crudlet-pubnub": "0.0.x",

@@ -1,6 +1,7 @@
 var io           = require("../");
 var expect       = require("expect.js");
 var ioServer     = require("socket.io");
+var crud         = require("crudlet");
 var server       = global.server;
 var sinon        = require("sinon");
 var EventEmitter = require("events").EventEmitter;
@@ -25,9 +26,9 @@ describe(__filename + "#", function() {
 
   it("properly broadcasts a ", function(next) {
 
-    var iodb = io({
+    var iodb = crud.clean(io({
       host: "http://0.0.0.0:" + port
-    });
+    }));
 
     em.once("operation", function(operation) {
       expect(operation.name).to.be("insert");
@@ -45,7 +46,9 @@ describe(__filename + "#", function() {
     });
 
     var stub = sinon.stub(iodb.client, "emit");
-    iodb("load", { data: { name: "abba" }}).on("end", function() {
+
+
+    crud.clean(iodb)("load", { data: { name: "abba" }}).on("end", function() {
       expect(stub.callCount).to.be(0);
       stub.restore();
       next();
@@ -60,6 +63,7 @@ describe(__filename + "#", function() {
     });
 
     var stub = sinon.stub(iodb.client, "emit");
+    iodb = crud.clean(iodb);
     iodb("a", { data: { name: "abba" }}).on("end", function() {
       expect(stub.callCount).to.be(0);
       iodb("b", { data: { name: "abba" }}).on("end", function() {
@@ -75,13 +79,13 @@ describe(__filename + "#", function() {
 
   it("can tail an operation", function(next) {
 
-    var iodb = io({
+    var iodb = crud.clean(io({
       host: "http://0.0.0.0:" + port
-    });
+    }));
 
-    var iodb2 = io({
+    var iodb2 = crud.clean(io({
       host: "http://127.0.0.1:" + port
-    });
+    }));
 
     iodb2("tail").on("data", function(operation) {
       expect(operation.name).to.be("insert");
