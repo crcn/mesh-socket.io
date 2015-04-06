@@ -1,7 +1,7 @@
 var io           = require("../");
 var expect       = require("expect.js");
 var ioServer     = require("socket.io");
-var crud         = require("crudlet");
+var mesh         = require("mesh");
 var server       = global.server;
 var sinon        = require("sinon");
 var EventEmitter = require("events").EventEmitter;
@@ -26,7 +26,7 @@ describe(__filename + "#", function() {
 
   it("properly broadcasts a ", function(next) {
 
-    var iodb = crud.clean(io({
+    var iodb = mesh.clean(io({
       host: "http://0.0.0.0:" + port
     }));
 
@@ -47,7 +47,7 @@ describe(__filename + "#", function() {
 
     var stub = sinon.stub(iodb.client, "emit");
 
-    crud.clean(iodb)("load", { data: { name: "abba" }}).on("end", function() {
+    mesh.clean(iodb)("load", { data: { name: "abba" }}).on("end", function() {
       expect(stub.callCount).to.be(0);
       stub.restore();
       next();
@@ -62,7 +62,7 @@ describe(__filename + "#", function() {
     });
 
     var stub = sinon.stub(iodb.client, "emit");
-    iodb = crud.clean(iodb);
+    iodb = mesh.clean(iodb);
     iodb("a", { data: { name: "abba" }}).on("end", function() {
       expect(stub.callCount).to.be(0);
       iodb("b", { data: { name: "abba" }}).on("end", function() {
@@ -78,11 +78,11 @@ describe(__filename + "#", function() {
 
   it("can tail an operation", function(next) {
 
-    var iodb = crud.clean(io({
+    var iodb = mesh.clean(io({
       host: "http://0.0.0.0:" + port
     }));
 
-    var iodb2 = crud.clean(io({
+    var iodb2 = mesh.clean(io({
       host: "http://127.0.0.1:" + port
     }));
 

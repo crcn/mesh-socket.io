@@ -1,14 +1,14 @@
 
-[![Build Status](https://travis-ci.org/mojo-js/crudlet-socket.io.svg)](https://travis-ci.org/mojo-js/crudlet-socket.io) [![Coverage Status](https://coveralls.io/repos/mojo-js/crudlet-socket.io/badge.svg?branch=master)](https://coveralls.io/r/mojo-js/crudlet-socket.io?branch=master) [![Dependency Status](https://david-dm.org/mojo-js/crudlet-socket.io.svg)](https://david-dm.org/mojo-js/crudlet-socket.io)
+[![Build Status](https://travis-ci.org/mojo-js/mesh-socket.io.svg)](https://travis-ci.org/mojo-js/mesh-socket.io) [![Coverage Status](https://coveralls.io/repos/mojo-js/mesh-socket.io/badge.svg?branch=master)](https://coveralls.io/r/mojo-js/mesh-socket.io?branch=master) [![Dependency Status](https://david-dm.org/mojo-js/mesh-socket.io.svg)](https://david-dm.org/mojo-js/mesh-socket.io)
 
-Streams for [socket.io](http://socket.io/). Also works with [crudlet](https://github.com/mojo-js/crudlet.js).
+Streams for [socket.io](http://socket.io/). Also works with [mesh](https://github.com/mojo-js/mesh.js).
 
 #### Basic example
 
 ```javascript
-var crud = require("crudlet");
-var loki = require("crudlet-loki");
-var io   = require("crudlet-socket.io");
+var mesh = require("mesh");
+var loki = require("mesh-loki");
+var io   = require("mesh-socket.io");
 
 var iodb = io({
 
@@ -16,13 +16,13 @@ var iodb = io({
   host: "http://localhost"
 });
 
-var db = crud.tailable(loki());
+var db = mesh.tailable(loki());
 
 // listen for remote operations and sync with in-memory DB
-iodb("tail").pipe(crud.open(loki));
+iodb("tail").pipe(mesh.open(loki));
 
 // tail in-memory operations & broadcast them to the world
-db("tail").pipe(crudlet.open(iodb));
+db("tail").pipe(mesh.open(iodb));
 
 // insert data into the DB. Should get broadcasted
 // to socket.io
