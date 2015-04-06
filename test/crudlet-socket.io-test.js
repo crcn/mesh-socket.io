@@ -47,7 +47,6 @@ describe(__filename + "#", function() {
 
     var stub = sinon.stub(iodb.client, "emit");
 
-
     crud.clean(iodb)("load", { data: { name: "abba" }}).on("end", function() {
       expect(stub.callCount).to.be(0);
       stub.restore();
