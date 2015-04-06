@@ -1,6 +1,6 @@
 {
   "name": "mesh-socket.io",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "socket.io streams",
   "main": "./lib/index.js",
   "scripts": {
@@ -21,10 +21,6 @@
     "browserify-middleware": "^5.0.2",
     "caplet": "0.0.38",
     "mesh": "^1.0.0",
-    "mesh-http": "0.0.x",
-    "mesh-local-storage": "0.0.x",
-    "mesh-pubnub": "0.0.x",
-    "mesh-webrtc": "0.0.x",
     "expect.js": "^0.3.1",
     "express": "^4.12.3",
     "gulp": "^3.8.11",
