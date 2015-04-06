@@ -95,4 +95,15 @@ describe(__filename + "#", function() {
 
     iodb("insert", { data: { name: "abba" }});
   });
+
+  it("doesn't publish remote operations", function(next) {
+    var iodb = io({
+      host: "http://127.0.0.1:" + port
+    });
+    var stub = sinon.stub(iodb.client, "emit");
+    iodb({ name: "insert", remote: true }).on("end", function() {
+      expect(stub.callCount).to.be(0);
+      next();
+    })
+  });
 });
