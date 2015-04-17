@@ -19,19 +19,19 @@ var iodb = io({
 var db = mesh.tailable(loki());
 
 // listen for remote operations and sync with in-memory DB
-iodb("tail").pipe(mesh.open(loki));
+iodb(mesh.op("tail")).pipe(mesh.open(loki));
 
 // tail in-memory operations & broadcast them to the world
-db("tail").pipe(mesh.open(iodb));
+db(mesh.op("tail")).pipe(mesh.open(iodb));
 
 // insert data into the DB. Should get broadcasted
 // to socket.io
-db("insert", {
+db(mesh.op("insert", {
   collection: "people"
   data: {
     name: "Shrek"
   }
-});
+}));
 ```
 
 #### server configuration
@@ -81,17 +81,17 @@ Tails a remote operation.
 ```javascript
 
 // tail all operations
-db("tail").on("data", function() {
+db(mesh.op("tail")).on("data", function() {
 
 });
 
 // tail only insert operations
-db("tail", { name: "insert" }).on("data", function() {
+db(mesh.op("tail", { name: "insert" })).on("data", function() {
 
 });
 
 // tail only operations on people collection
-db("tail", { collection: "people" }).on("data", function() {
+db(mesh.op("tail", { collection: "people" })).on("data", function() {
 
 });
 ```
