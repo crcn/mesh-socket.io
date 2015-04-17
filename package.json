@@ -1,6 +1,6 @@
 {
   "name": "mesh-socket.io",
-  "version": "1.0.2",
+  "version": "2.0.2",
   "description": "socket.io streams",
   "main": "./lib/index.js",
   "scripts": {
@@ -43,6 +43,7 @@
     "yargs": "^3.6.0"
   },
   "dependencies": {
+    "mesh": "^1.0.31",
     "obj-stream": "0.0.12",
     "sift": "^1.1.0",
     "socket.io-client": "^1.3.5",
