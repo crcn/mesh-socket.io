@@ -10,23 +10,20 @@ var mesh = require("mesh");
 var loki = require("mesh-loki");
 var io   = require("mesh-socket.io");
 
-var iodb = io({
+var bus = mesh.tailable(loki());
 
-  // socket.io server host
+// setup socket io - take all remote ops and pass
+// to the bus
+var iobus = mesh.reject("load", io({
   host: "http://localhost"
-});
+}, bus));
 
-var db = mesh.tailable(loki());
-
-// listen for remote operations and sync with in-memory DB
-iodb(mesh.op("tail")).pipe(mesh.open(loki));
-
-// tail in-memory operations & broadcast them to the world
-db(mesh.op("tail")).pipe(mesh.open(iodb));
+// pipe all operations on bus to socket.io
+bus(mesh.op("tail")).pipe(mesh.open(iobus));
 
 // insert data into the DB. Should get broadcasted
 // to socket.io
-db(mesh.op("insert", {
+bus(mesh.op("insert", {
   collection: "people"
   data: {
     name: "Shrek"
@@ -53,20 +50,19 @@ server.on("connection", function(connection) {
 });
 ```
 
-#### db(options)
+#### db(options, bus)
 
 creates a new socket.io streamer.
 
 - `options`
   - `host` - socket.io server host
   - `channel` - channel to subscribe to. Default is `operation`.
-  - `reject` - operations to reject. Default is `[load]`.
+- `bus` - bus to pass remote calls to
 
 ```javascript
 var iodb = io({
   host: "http://localhost",
-  channel: "myOperationsChannel",
-  reject: ["insert", "remove", "load"]
+  channel: "myOperationsChannel"
 })
 ```
 
