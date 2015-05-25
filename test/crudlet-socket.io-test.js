@@ -72,7 +72,7 @@ describe(__filename + "#", function() {
     });
     // var stub = sinon.stub(iodb.client, "emit");
     iodb({ name: "insert", remote: true }).on("end", function() {
-      console.log(operation);
+      // console.log(operation);
 
       // expect(stub.callCount).to.be(0);
       next();
