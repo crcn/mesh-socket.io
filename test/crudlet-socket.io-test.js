@@ -17,11 +17,11 @@ describe(__filename + "#", function() {
     if (server) server.close();
     global.server = server = ioServer(++port);
 
-
     server.on("connection", function(connection) {
 
       var cbus = mesh.tailable(mesh.wrap(function(op, next) {
         operation = op;
+
         next(void 0, op);
       }));
 
@@ -30,21 +30,21 @@ describe(__filename + "#", function() {
       }, cbus);
 
       cbus(mesh.op("tail")).on("data", function(op) {
-        connection.broadcast.emit("operation", op);
+        connection.broadcast.emit("o", op);
       });
     });
   });
 
   it("properly broadcasts a ", function(next) {
 
-    var iodb = mesh.clean(io({
+    var iodb = io({
       host: "http://127.0.0.1:" + port
-    }));
+    });
 
     iodb(mesh.op("something", { data: { name: "abba" }})).on("data", function(operation) {
-        expect(operation.name).to.be("something");
-        expect(operation.data.name).to.be("abba");
-        next();
+      expect(operation.name).to.be("something");
+      expect(operation.data.name).to.be("abba");
+      next();
     });
 
   });
@@ -57,11 +57,11 @@ describe(__filename + "#", function() {
 
     var iodb = io({
       host: "http://127.0.0.1:" + port
-    }, mesh.wrap(function(operation) {
+    }, mesh.accept("insert", mesh.wrap(function(operation) {
       expect(operation.name).to.be("insert");
       expect(operation.data.name).to.be("abba");
       next();
-    }));
+    })));
 
     iodb2(mesh.op("insert", { data: { name: "abba" }}));
   });
@@ -73,9 +73,8 @@ describe(__filename + "#", function() {
     // var stub = sinon.stub(iodb.client, "emit");
     iodb({ name: "insert", remote: true }).on("end", function() {
       // console.log(operation);
-
       // expect(stub.callCount).to.be(0);
       next();
-    })
+    });
   });
 });
